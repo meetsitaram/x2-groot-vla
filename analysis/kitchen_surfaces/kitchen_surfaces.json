@@ -1,0 +1,1982 @@
+{
+  "frame": "kitchen world frame (floor z=0; same as kitchen_collision.usd, nav_grid.npz, waypoints.json)",
+  "mesh": "/home/stickbot/projects/x2-kitchen-sim/assets/kitchen/kitchen_collision.obj",
+  "params": {
+    "normal_z_min": 0.95,
+    "z_range_m": [
+      0.15,
+      2.0
+    ],
+    "voxel_xy_m": 0.04,
+    "voxel_z_m": 0.03,
+    "min_surface_area_m2": 0.05,
+    "stand_band_m": [
+      0.4,
+      0.8
+    ]
+  },
+  "nav_grid": {
+    "shape": [
+      564,
+      647
+    ],
+    "res_m": 0.02,
+    "origin_xy": [
+      -7.211281748904286,
+      -9.42930069823419
+    ],
+    "axis_order": "xy",
+    "axis_check_esdf_at_waypoints": {
+      "yx": {
+        "min_esdf": -1.0,
+        "mean_esdf": 0.124,
+        "walkable_hits": 4
+      },
+      "xy": {
+        "min_esdf": 0.16,
+        "mean_esdf": 0.307,
+        "walkable_hits": 8
+      }
+    }
+  },
+  "height_histogram_area_weighted": [
+    {
+      "z_lo": 0.15,
+      "z_hi": 0.175,
+      "area_m2": 0.411
+    },
+    {
+      "z_lo": 0.175,
+      "z_hi": 0.2,
+      "area_m2": 0.209
+    },
+    {
+      "z_lo": 0.2,
+      "z_hi": 0.225,
+      "area_m2": 0.301
+    },
+    {
+      "z_lo": 0.225,
+      "z_hi": 0.25,
+      "area_m2": 0.496
+    },
+    {
+      "z_lo": 0.25,
+      "z_hi": 0.275,
+      "area_m2": 0.462
+    },
+    {
+      "z_lo": 0.275,
+      "z_hi": 0.3,
+      "area_m2": 0.221
+    },
+    {
+      "z_lo": 0.3,
+      "z_hi": 0.325,
+      "area_m2": 0.112
+    },
+    {
+      "z_lo": 0.325,
+      "z_hi": 0.35,
+      "area_m2": 0.126
+    },
+    {
+      "z_lo": 0.35,
+      "z_hi": 0.375,
+      "area_m2": 0.079
+    },
+    {
+      "z_lo": 0.375,
+      "z_hi": 0.4,
+      "area_m2": 0.139
+    },
+    {
+      "z_lo": 0.4,
+      "z_hi": 0.425,
+      "area_m2": 0.059
+    },
+    {
+      "z_lo": 0.425,
+      "z_hi": 0.45,
+      "area_m2": 0.48
+    },
+    {
+      "z_lo": 0.45,
+      "z_hi": 0.475,
+      "area_m2": 0.426
+    },
+    {
+      "z_lo": 0.475,
+      "z_hi": 0.5,
+      "area_m2": 0.11
+    },
+    {
+      "z_lo": 0.5,
+      "z_hi": 0.525,
+      "area_m2": 0.169
+    },
+    {
+      "z_lo": 0.525,
+      "z_hi": 0.55,
+      "area_m2": 0.281
+    },
+    {
+      "z_lo": 0.55,
+      "z_hi": 0.575,
+      "area_m2": 0.187
+    },
+    {
+      "z_lo": 0.575,
+      "z_hi": 0.6,
+      "area_m2": 0.066
+    },
+    {
+      "z_lo": 0.6,
+      "z_hi": 0.625,
+      "area_m2": 0.051
+    },
+    {
+      "z_lo": 0.625,
+      "z_hi": 0.65,
+      "area_m2": 0.164
+    },
+    {
+      "z_lo": 0.65,
+      "z_hi": 0.675,
+      "area_m2": 0.066
+    },
+    {
+      "z_lo": 0.675,
+      "z_hi": 0.7,
+      "area_m2": 0.048
+    },
+    {
+      "z_lo": 0.7,
+      "z_hi": 0.725,
+      "area_m2": 0.2
+    },
+    {
+      "z_lo": 0.725,
+      "z_hi": 0.75,
+      "area_m2": 0.43
+    },
+    {
+      "z_lo": 0.75,
+      "z_hi": 0.775,
+      "area_m2": 0.244
+    },
+    {
+      "z_lo": 0.775,
+      "z_hi": 0.8,
+      "area_m2": 0.106
+    },
+    {
+      "z_lo": 0.8,
+      "z_hi": 0.825,
+      "area_m2": 0.087
+    },
+    {
+      "z_lo": 0.825,
+      "z_hi": 0.85,
+      "area_m2": 0.037
+    },
+    {
+      "z_lo": 0.85,
+      "z_hi": 0.875,
+      "area_m2": 0.711
+    },
+    {
+      "z_lo": 0.875,
+      "z_hi": 0.9,
+      "area_m2": 0.475
+    },
+    {
+      "z_lo": 0.9,
+      "z_hi": 0.925,
+      "area_m2": 0.185
+    },
+    {
+      "z_lo": 0.925,
+      "z_hi": 0.95,
+      "area_m2": 0.199
+    },
+    {
+      "z_lo": 0.95,
+      "z_hi": 0.975,
+      "area_m2": 0.416
+    },
+    {
+      "z_lo": 0.975,
+      "z_hi": 1.0,
+      "area_m2": 0.112
+    },
+    {
+      "z_lo": 1.0,
+      "z_hi": 1.025,
+      "area_m2": 0.023
+    },
+    {
+      "z_lo": 1.025,
+      "z_hi": 1.05,
+      "area_m2": 0.043
+    },
+    {
+      "z_lo": 1.05,
+      "z_hi": 1.075,
+      "area_m2": 0.058
+    },
+    {
+      "z_lo": 1.075,
+      "z_hi": 1.1,
+      "area_m2": 0.042
+    },
+    {
+      "z_lo": 1.1,
+      "z_hi": 1.125,
+      "area_m2": 0.105
+    },
+    {
+      "z_lo": 1.125,
+      "z_hi": 1.15,
+      "area_m2": 0.138
+    },
+    {
+      "z_lo": 1.15,
+      "z_hi": 1.175,
+      "area_m2": 0.029
+    },
+    {
+      "z_lo": 1.2,
+      "z_hi": 1.225,
+      "area_m2": 0.025
+    },
+    {
+      "z_lo": 1.225,
+      "z_hi": 1.25,
+      "area_m2": 0.018
+    },
+    {
+      "z_lo": 1.25,
+      "z_hi": 1.275,
+      "area_m2": 0.048
+    },
+    {
+      "z_lo": 1.275,
+      "z_hi": 1.3,
+      "area_m2": 0.079
+    },
+    {
+      "z_lo": 1.3,
+      "z_hi": 1.325,
+      "area_m2": 0.025
+    },
+    {
+      "z_lo": 1.325,
+      "z_hi": 1.35,
+      "area_m2": 0.12
+    },
+    {
+      "z_lo": 1.35,
+      "z_hi": 1.375,
+      "area_m2": 0.087
+    },
+    {
+      "z_lo": 1.375,
+      "z_hi": 1.4,
+      "area_m2": 0.019
+    },
+    {
+      "z_lo": 1.425,
+      "z_hi": 1.45,
+      "area_m2": 0.017
+    },
+    {
+      "z_lo": 1.45,
+      "z_hi": 1.475,
+      "area_m2": 0.093
+    },
+    {
+      "z_lo": 1.475,
+      "z_hi": 1.5,
+      "area_m2": 0.127
+    },
+    {
+      "z_lo": 1.5,
+      "z_hi": 1.525,
+      "area_m2": 0.036
+    },
+    {
+      "z_lo": 1.525,
+      "z_hi": 1.55,
+      "area_m2": 0.058
+    },
+    {
+      "z_lo": 1.55,
+      "z_hi": 1.575,
+      "area_m2": 0.066
+    },
+    {
+      "z_lo": 1.575,
+      "z_hi": 1.6,
+      "area_m2": 0.054
+    },
+    {
+      "z_lo": 1.6,
+      "z_hi": 1.625,
+      "area_m2": 0.013
+    },
+    {
+      "z_lo": 1.7,
+      "z_hi": 1.725,
+      "area_m2": 0.02
+    }
+  ],
+  "surfaces": [
+    {
+      "z": 0.876,
+      "z_spread": 0.084,
+      "area_m2": 1.204,
+      "xy_min": [
+        -1.997,
+        1.02
+      ],
+      "xy_max": [
+        0.786,
+        3.07
+      ],
+      "size_xy": [
+        2.78,
+        2.05
+      ],
+      "centroid_xy": [
+        -0.158,
+        2.182
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            0.483,
+            1.66,
+            0.875
+          ],
+          "clear_radius_m": 0.28
+        },
+        {
+          "xyz": [
+            -0.517,
+            2.7,
+            0.87
+          ],
+          "clear_radius_m": 0.233
+        },
+        {
+          "xyz": [
+            0.283,
+            2.22,
+            0.875
+          ],
+          "clear_radius_m": 0.2
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 3557,
+      "stand_area_m2": 1.423,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -0.311,
+        2.071
+      ],
+      "nearest_waypoint": "dishwasher",
+      "nearest_waypoint_dist_m": 0.03
+    },
+    {
+      "z": 0.284,
+      "z_spread": 0.143,
+      "area_m2": 1.051,
+      "xy_min": [
+        -6.212,
+        -1.156
+      ],
+      "xy_max": [
+        -4.118,
+        -0.161
+      ],
+      "size_xy": [
+        2.09,
+        1.0
+      ],
+      "centroid_xy": [
+        -5.224,
+        -0.692
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -4.532,
+            -0.796,
+            0.241
+          ],
+          "clear_radius_m": 0.24
+        },
+        {
+          "xyz": [
+            -5.492,
+            -0.756,
+            0.281
+          ],
+          "clear_radius_m": 0.179
+        },
+        {
+          "xyz": [
+            -6.052,
+            -0.356,
+            0.287
+          ],
+          "clear_radius_m": 0.17
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1182,
+      "stand_area_m2": 0.473,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -3.931,
+        -0.329
+      ],
+      "nearest_waypoint": "entrance",
+      "nearest_waypoint_dist_m": 1.78
+    },
+    {
+      "z": 0.208,
+      "z_spread": 0.11,
+      "area_m2": 0.897,
+      "xy_min": [
+        -5.295,
+        -2.604
+      ],
+      "xy_max": [
+        -3.622,
+        -1.422
+      ],
+      "size_xy": [
+        1.67,
+        1.18
+      ],
+      "centroid_xy": [
+        -4.443,
+        -2.016
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -5.015,
+            -1.724,
+            0.267
+          ],
+          "clear_radius_m": 0.2
+        },
+        {
+          "xyz": [
+            -4.295,
+            -2.284,
+            0.164
+          ],
+          "clear_radius_m": 0.165
+        },
+        {
+          "xyz": [
+            -4.415,
+            -1.884,
+            0.248
+          ],
+          "clear_radius_m": 0.144
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 620,
+      "stand_area_m2": 0.248,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -3.751,
+        -1.309
+      ],
+      "nearest_waypoint": "hallway",
+      "nearest_waypoint_dist_m": 2.36
+    },
+    {
+      "z": 0.445,
+      "z_spread": 0.035,
+      "area_m2": 0.643,
+      "xy_min": [
+        -5.347,
+        -0.057
+      ],
+      "xy_max": [
+        -3.789,
+        0.888
+      ],
+      "size_xy": [
+        1.56,
+        0.95
+      ],
+      "centroid_xy": [
+        -4.308,
+        0.407
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -4.187,
+            0.383,
+            0.448
+          ],
+          "clear_radius_m": 0.358
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1090,
+      "stand_area_m2": 0.436,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -3.891,
+        -0.329
+      ],
+      "nearest_waypoint": "entrance",
+      "nearest_waypoint_dist_m": 1.76
+    },
+    {
+      "z": 0.732,
+      "z_spread": 0.055,
+      "area_m2": 0.557,
+      "xy_min": [
+        1.915,
+        -1.308
+      ],
+      "xy_max": [
+        3.151,
+        -0.613
+      ],
+      "size_xy": [
+        1.24,
+        0.7
+      ],
+      "centroid_xy": [
+        2.525,
+        -1.007
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            2.155,
+            -1.108,
+            0.73
+          ],
+          "clear_radius_m": 0.215
+        },
+        {
+          "xyz": [
+            2.595,
+            -1.068,
+            0.736
+          ],
+          "clear_radius_m": 0.165
+        },
+        {
+          "xyz": [
+            2.955,
+            -1.108,
+            0.742
+          ],
+          "clear_radius_m": 0.16
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1974,
+      "stand_area_m2": 0.79,
+      "can_stand": true,
+      "sample_stand_xy": [
+        2.669,
+        -1.669
+      ],
+      "nearest_waypoint": "dining_table",
+      "nearest_waypoint_dist_m": 1.69
+    },
+    {
+      "z": 1.481,
+      "z_spread": 0.066,
+      "area_m2": 0.252,
+      "xy_min": [
+        -6.353,
+        -2.648
+      ],
+      "xy_max": [
+        -5.822,
+        -1.41
+      ],
+      "size_xy": [
+        0.53,
+        1.24
+      ],
+      "centroid_xy": [
+        -6.091,
+        -2.099
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -6.033,
+            -2.408,
+            1.483
+          ],
+          "clear_radius_m": 0.16
+        },
+        {
+          "xyz": [
+            -6.193,
+            -1.848,
+            1.489
+          ],
+          "clear_radius_m": 0.113
+        },
+        {
+          "xyz": [
+            -6.313,
+            -1.488,
+            1.493
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 1.35,
+      "z_spread": 0.062,
+      "area_m2": 0.204,
+      "xy_min": [
+        -6.114,
+        -2.107
+      ],
+      "xy_max": [
+        -5.659,
+        -1.311
+      ],
+      "size_xy": [
+        0.45,
+        0.8
+      ],
+      "centroid_xy": [
+        -5.812,
+        -1.65
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -5.834,
+            -1.467,
+            1.35
+          ],
+          "clear_radius_m": 0.16
+        },
+        {
+          "xyz": [
+            -5.794,
+            -1.867,
+            1.345
+          ],
+          "clear_radius_m": 0.144
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.958,
+      "z_spread": 0.025,
+      "area_m2": 0.197,
+      "xy_min": [
+        -5.407,
+        -4.615
+      ],
+      "xy_max": [
+        -4.225,
+        -4.1
+      ],
+      "size_xy": [
+        1.18,
+        0.52
+      ],
+      "centroid_xy": [
+        -4.813,
+        -4.316
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -4.687,
+            -4.255,
+            0.959
+          ],
+          "clear_radius_m": 0.16
+        },
+        {
+          "xyz": [
+            -5.247,
+            -4.535,
+            0.963
+          ],
+          "clear_radius_m": 0.113
+        },
+        {
+          "xyz": [
+            -5.007,
+            -4.335,
+            0.95
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.559,
+      "z_spread": 0.054,
+      "area_m2": 0.188,
+      "xy_min": [
+        -5.611,
+        -0.066
+      ],
+      "xy_max": [
+        -4.812,
+        0.484
+      ],
+      "size_xy": [
+        0.8,
+        0.55
+      ],
+      "centroid_xy": [
+        -5.195,
+        0.111
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -5.211,
+            0.094,
+            0.559
+          ],
+          "clear_radius_m": 0.165
+        },
+        {
+          "xyz": [
+            -5.531,
+            0.014,
+            0.556
+          ],
+          "clear_radius_m": 0.089
+        },
+        {
+          "xyz": [
+            -4.971,
+            0.374,
+            0.535
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.937,
+      "z_spread": 0.095,
+      "area_m2": 0.173,
+      "xy_min": [
+        1.014,
+        -3.701
+      ],
+      "xy_max": [
+        1.417,
+        -2.952
+      ],
+      "size_xy": [
+        0.4,
+        0.75
+      ],
+      "centroid_xy": [
+        1.206,
+        -3.306
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            1.174,
+            -3.421,
+            0.957
+          ],
+          "clear_radius_m": 0.16
+        },
+        {
+          "xyz": [
+            1.294,
+            -3.061,
+            0.902
+          ],
+          "clear_radius_m": 0.113
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.77,
+      "z_spread": 0.095,
+      "area_m2": 0.172,
+      "xy_min": [
+        1.301,
+        -3.883
+      ],
+      "xy_max": [
+        1.881,
+        -3.104
+      ],
+      "size_xy": [
+        0.58,
+        0.78
+      ],
+      "centroid_xy": [
+        1.587,
+        -3.536
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            1.581,
+            -3.603,
+            0.771
+          ],
+          "clear_radius_m": 0.144
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.529,
+      "z_spread": 0.058,
+      "area_m2": 0.168,
+      "xy_min": [
+        -3.421,
+        -2.2
+      ],
+      "xy_max": [
+        -2.768,
+        -1.681
+      ],
+      "size_xy": [
+        0.65,
+        0.52
+      ],
+      "centroid_xy": [
+        -3.087,
+        -1.974
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -3.061,
+            -2.04,
+            0.548
+          ],
+          "clear_radius_m": 0.165
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1492,
+      "stand_area_m2": 0.597,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -2.851,
+        -2.609
+      ],
+      "nearest_waypoint": "hallway",
+      "nearest_waypoint_dist_m": 1.12
+    },
+    {
+      "z": 0.563,
+      "z_spread": 0.161,
+      "area_m2": 0.14,
+      "xy_min": [
+        0.637,
+        -3.355
+      ],
+      "xy_max": [
+        1.461,
+        -2.551
+      ],
+      "size_xy": [
+        0.82,
+        0.8
+      ],
+      "centroid_xy": [
+        1.08,
+        -2.835
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            0.677,
+            -2.675,
+            0.639
+          ],
+          "clear_radius_m": 0.08
+        },
+        {
+          "xyz": [
+            0.757,
+            -2.835,
+            0.628
+          ],
+          "clear_radius_m": 0.08
+        },
+        {
+          "xyz": [
+            0.957,
+            -2.795,
+            0.576
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1072,
+      "stand_area_m2": 0.429,
+      "can_stand": true,
+      "sample_stand_xy": [
+        1.129,
+        -2.009
+      ],
+      "nearest_waypoint": "dining_table",
+      "nearest_waypoint_dist_m": 0.28
+    },
+    {
+      "z": 0.48,
+      "z_spread": 0.046,
+      "area_m2": 0.131,
+      "xy_min": [
+        0.403,
+        -2.789
+      ],
+      "xy_max": [
+        1.515,
+        -2.357
+      ],
+      "size_xy": [
+        1.11,
+        0.43
+      ],
+      "centroid_xy": [
+        0.948,
+        -2.481
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            0.523,
+            -2.589,
+            0.502
+          ],
+          "clear_radius_m": 0.113
+        },
+        {
+          "xyz": [
+            0.763,
+            -2.509,
+            0.476
+          ],
+          "clear_radius_m": 0.08
+        },
+        {
+          "xyz": [
+            0.923,
+            -2.469,
+            0.471
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1983,
+      "stand_area_m2": 0.793,
+      "can_stand": true,
+      "sample_stand_xy": [
+        1.049,
+        -1.909
+      ],
+      "nearest_waypoint": "dining_table",
+      "nearest_waypoint_dist_m": 0.15
+    },
+    {
+      "z": 0.18,
+      "z_spread": 0.07,
+      "area_m2": 0.13,
+      "xy_min": [
+        0.766,
+        -2.765
+      ],
+      "xy_max": [
+        1.511,
+        -2.415
+      ],
+      "size_xy": [
+        0.75,
+        0.35
+      ],
+      "centroid_xy": [
+        1.084,
+        -2.578
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            0.926,
+            -2.605,
+            0.189
+          ],
+          "clear_radius_m": 0.126
+        },
+        {
+          "xyz": [
+            1.246,
+            -2.565,
+            0.172
+          ],
+          "clear_radius_m": 0.089
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1117,
+      "stand_area_m2": 0.447,
+      "can_stand": true,
+      "sample_stand_xy": [
+        1.109,
+        -1.969
+      ],
+      "nearest_waypoint": "dining_table",
+      "nearest_waypoint_dist_m": 0.24
+    },
+    {
+      "z": 0.533,
+      "z_spread": 0.06,
+      "area_m2": 0.127,
+      "xy_min": [
+        2.549,
+        -2.872
+      ],
+      "xy_max": [
+        2.955,
+        -2.427
+      ],
+      "size_xy": [
+        0.41,
+        0.44
+      ],
+      "centroid_xy": [
+        2.738,
+        -2.642
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            2.709,
+            -2.672,
+            0.541
+          ],
+          "clear_radius_m": 0.179
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 587,
+      "stand_area_m2": 0.235,
+      "can_stand": true,
+      "sample_stand_xy": [
+        2.849,
+        -1.989
+      ],
+      "nearest_waypoint": "dining_table",
+      "nearest_waypoint_dist_m": 1.88
+    },
+    {
+      "z": 0.765,
+      "z_spread": 0.052,
+      "area_m2": 0.125,
+      "xy_min": [
+        0.616,
+        -3.611
+      ],
+      "xy_max": [
+        1.244,
+        -2.97
+      ],
+      "size_xy": [
+        0.63,
+        0.64
+      ],
+      "centroid_xy": [
+        0.905,
+        -3.26
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            0.696,
+            -3.291,
+            0.749
+          ],
+          "clear_radius_m": 0.113
+        },
+        {
+          "xyz": [
+            0.936,
+            -3.371,
+            0.785
+          ],
+          "clear_radius_m": 0.089
+        },
+        {
+          "xyz": [
+            1.136,
+            -3.051,
+            0.774
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 490,
+      "stand_area_m2": 0.196,
+      "can_stand": true,
+      "sample_stand_xy": [
+        0.149,
+        -3.289
+      ],
+      "nearest_waypoint": "dining_table",
+      "nearest_waypoint_dist_m": 1.73
+    },
+    {
+      "z": 0.451,
+      "z_spread": 0.077,
+      "area_m2": 0.121,
+      "xy_min": [
+        0.494,
+        -4.055
+      ],
+      "xy_max": [
+        0.935,
+        -3.436
+      ],
+      "size_xy": [
+        0.44,
+        0.62
+      ],
+      "centroid_xy": [
+        0.662,
+        -3.737
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            0.614,
+            -3.695,
+            0.46
+          ],
+          "clear_radius_m": 0.144
+        },
+        {
+          "xyz": [
+            0.654,
+            -4.015,
+            0.407
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 522,
+      "stand_area_m2": 0.209,
+      "can_stand": true,
+      "sample_stand_xy": [
+        0.049,
+        -3.809
+      ],
+      "nearest_waypoint": "hallway",
+      "nearest_waypoint_dist_m": 2.19
+    },
+    {
+      "z": 1.285,
+      "z_spread": 0.037,
+      "area_m2": 0.119,
+      "xy_min": [
+        -0.983,
+        -2.972
+      ],
+      "xy_max": [
+        -0.707,
+        -2.261
+      ],
+      "size_xy": [
+        0.28,
+        0.71
+      ],
+      "centroid_xy": [
+        -0.843,
+        -2.645
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -0.863,
+            -2.692,
+            1.291
+          ],
+          "clear_radius_m": 0.16
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1452,
+      "stand_area_m2": 0.581,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -0.251,
+        -2.629
+      ],
+      "nearest_waypoint": "hallway",
+      "nearest_waypoint_dist_m": 1.48
+    },
+    {
+      "z": 0.942,
+      "z_spread": 0.065,
+      "area_m2": 0.113,
+      "xy_min": [
+        -6.205,
+        0.04
+      ],
+      "xy_max": [
+        -5.789,
+        0.438
+      ],
+      "size_xy": [
+        0.42,
+        0.4
+      ],
+      "centroid_xy": [
+        -5.973,
+        0.247
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -5.965,
+            0.2,
+            0.937
+          ],
+          "clear_radius_m": 0.144
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.638,
+      "z_spread": 0.048,
+      "area_m2": 0.113,
+      "xy_min": [
+        1.616,
+        -0.47
+      ],
+      "xy_max": [
+        1.968,
+        0.072
+      ],
+      "size_xy": [
+        0.35,
+        0.54
+      ],
+      "centroid_xy": [
+        1.778,
+        -0.221
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            1.776,
+            -0.31,
+            0.642
+          ],
+          "clear_radius_m": 0.16
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 2083,
+      "stand_area_m2": 0.833,
+      "can_stand": true,
+      "sample_stand_xy": [
+        1.209,
+        -0.369
+      ],
+      "nearest_waypoint": "dining_table",
+      "nearest_waypoint_dist_m": 1.42
+    },
+    {
+      "z": 1.566,
+      "z_spread": 0.065,
+      "area_m2": 0.099,
+      "xy_min": [
+        -1.157,
+        -2.895
+      ],
+      "xy_max": [
+        -0.752,
+        -1.849
+      ],
+      "size_xy": [
+        0.4,
+        1.05
+      ],
+      "centroid_xy": [
+        -0.948,
+        -2.404
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -1.037,
+            -2.415,
+            1.582
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 2261,
+      "stand_area_m2": 0.904,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -0.291,
+        -2.489
+      ],
+      "nearest_waypoint": "pantry",
+      "nearest_waypoint_dist_m": 1.36
+    },
+    {
+      "z": 0.192,
+      "z_spread": 0.111,
+      "area_m2": 0.097,
+      "xy_min": [
+        1.851,
+        -3.817
+      ],
+      "xy_max": [
+        2.526,
+        -3.538
+      ],
+      "size_xy": [
+        0.67,
+        0.28
+      ],
+      "centroid_xy": [
+        2.18,
+        -3.668
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            2.211,
+            -3.657,
+            0.177
+          ],
+          "clear_radius_m": 0.12
+        },
+        {
+          "xyz": [
+            1.891,
+            -3.777,
+            0.256
+          ],
+          "clear_radius_m": 0.08
+        },
+        {
+          "xyz": [
+            2.451,
+            -3.657,
+            0.155
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 1.137,
+      "z_spread": 0.044,
+      "area_m2": 0.095,
+      "xy_min": [
+        3.105,
+        -3.39
+      ],
+      "xy_max": [
+        3.634,
+        -3.058
+      ],
+      "size_xy": [
+        0.53,
+        0.33
+      ],
+      "centroid_xy": [
+        3.41,
+        -3.208
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            3.345,
+            -3.27,
+            1.138
+          ],
+          "clear_radius_m": 0.126
+        },
+        {
+          "xyz": [
+            3.585,
+            -3.15,
+            1.141
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 1.112,
+      "z_spread": 0.029,
+      "area_m2": 0.092,
+      "xy_min": [
+        -2.269,
+        2.128
+      ],
+      "xy_max": [
+        -1.907,
+        2.722
+      ],
+      "size_xy": [
+        0.36,
+        0.59
+      ],
+      "centroid_xy": [
+        -2.123,
+        2.418
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -2.109,
+            2.328,
+            1.105
+          ],
+          "clear_radius_m": 0.12
+        },
+        {
+          "xyz": [
+            -2.229,
+            2.568,
+            1.112
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 18,
+      "stand_area_m2": 0.007,
+      "can_stand": false,
+      "sample_stand_xy": [
+        -1.151,
+        1.931
+      ],
+      "nearest_waypoint": "sink",
+      "nearest_waypoint_dist_m": 0.22
+    },
+    {
+      "z": 1.554,
+      "z_spread": 0.073,
+      "area_m2": 0.078,
+      "xy_min": [
+        -6.507,
+        -0.29
+      ],
+      "xy_max": [
+        -6.173,
+        -0.056
+      ],
+      "size_xy": [
+        0.33,
+        0.23
+      ],
+      "centroid_xy": [
+        -6.345,
+        -0.173
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -6.387,
+            -0.17,
+            1.564
+          ],
+          "clear_radius_m": 0.113
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.827,
+      "z_spread": 0.052,
+      "area_m2": 0.074,
+      "xy_min": [
+        -6.214,
+        -0.314
+      ],
+      "xy_max": [
+        -5.814,
+        0.012
+      ],
+      "size_xy": [
+        0.4,
+        0.33
+      ],
+      "centroid_xy": [
+        -6.037,
+        -0.19
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -6.014,
+            -0.234,
+            0.821
+          ],
+          "clear_radius_m": 0.089
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.985,
+      "z_spread": 0.047,
+      "area_m2": 0.07,
+      "xy_min": [
+        -3.613,
+        -4.007
+      ],
+      "xy_max": [
+        -3.082,
+        -3.618
+      ],
+      "size_xy": [
+        0.53,
+        0.39
+      ],
+      "centroid_xy": [
+        -3.374,
+        -3.794
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -3.533,
+            -3.887,
+            0.982
+          ],
+          "clear_radius_m": 0.089
+        },
+        {
+          "xyz": [
+            -3.293,
+            -3.807,
+            0.997
+          ],
+          "clear_radius_m": 0.08
+        },
+        {
+          "xyz": [
+            -3.173,
+            -3.687,
+            0.983
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.855,
+      "z_spread": 0.009,
+      "area_m2": 0.07,
+      "xy_min": [
+        1.425,
+        -3.202
+      ],
+      "xy_max": [
+        1.751,
+        -2.952
+      ],
+      "size_xy": [
+        0.33,
+        0.25
+      ],
+      "centroid_xy": [
+        1.596,
+        -3.078
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            1.545,
+            -3.082,
+            0.855
+          ],
+          "clear_radius_m": 0.12
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    },
+    {
+      "z": 0.712,
+      "z_spread": 0.03,
+      "area_m2": 0.065,
+      "xy_min": [
+        -3.064,
+        -3.638
+      ],
+      "xy_max": [
+        -2.908,
+        -3.066
+      ],
+      "size_xy": [
+        0.16,
+        0.57
+      ],
+      "centroid_xy": [
+        -2.976,
+        -3.386
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -3.024,
+            -3.518,
+            0.718
+          ],
+          "clear_radius_m": 0.08
+        },
+        {
+          "xyz": [
+            -2.984,
+            -3.358,
+            0.711
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 260,
+      "stand_area_m2": 0.104,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -2.651,
+        -2.749
+      ],
+      "nearest_waypoint": "hallway",
+      "nearest_waypoint_dist_m": 0.94
+    },
+    {
+      "z": 0.912,
+      "z_spread": 0.016,
+      "area_m2": 0.061,
+      "xy_min": [
+        -2.925,
+        -1.273
+      ],
+      "xy_max": [
+        -2.767,
+        -0.329
+      ],
+      "size_xy": [
+        0.16,
+        0.94
+      ],
+      "centroid_xy": [
+        -2.828,
+        -0.806
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -2.885,
+            -0.633,
+            0.913
+          ],
+          "clear_radius_m": 0.08
+        },
+        {
+          "xyz": [
+            -2.845,
+            -0.993,
+            0.913
+          ],
+          "clear_radius_m": 0.08
+        },
+        {
+          "xyz": [
+            -2.845,
+            -0.793,
+            0.914
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 3759,
+      "stand_area_m2": 1.504,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -3.331,
+        -0.809
+      ],
+      "nearest_waypoint": "entrance",
+      "nearest_waypoint_dist_m": 1.95
+    },
+    {
+      "z": 0.953,
+      "z_spread": 0.116,
+      "area_m2": 0.059,
+      "xy_min": [
+        -1.006,
+        -3.132
+      ],
+      "xy_max": [
+        -0.75,
+        -2.566
+      ],
+      "size_xy": [
+        0.26,
+        0.57
+      ],
+      "centroid_xy": [
+        -0.866,
+        -2.829
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -0.846,
+            -2.932,
+            0.933
+          ],
+          "clear_radius_m": 0.089
+        },
+        {
+          "xyz": [
+            -0.926,
+            -2.732,
+            0.987
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1612,
+      "stand_area_m2": 0.645,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -0.291,
+        -2.589
+      ],
+      "nearest_waypoint": "hallway",
+      "nearest_waypoint_dist_m": 1.44
+    },
+    {
+      "z": 0.384,
+      "z_spread": 0.025,
+      "area_m2": 0.057,
+      "xy_min": [
+        -0.956,
+        -3.302
+      ],
+      "xy_max": [
+        -0.514,
+        -3.053
+      ],
+      "size_xy": [
+        0.44,
+        0.25
+      ],
+      "centroid_xy": [
+        -0.719,
+        -3.159
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -0.796,
+            -3.182,
+            0.385
+          ],
+          "clear_radius_m": 0.089
+        },
+        {
+          "xyz": [
+            -0.596,
+            -3.142,
+            0.38
+          ],
+          "clear_radius_m": 0.089
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 1790,
+      "stand_area_m2": 0.716,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -0.431,
+        -3.709
+      ],
+      "nearest_waypoint": "hallway",
+      "nearest_waypoint_dist_m": 1.75
+    },
+    {
+      "z": 0.955,
+      "z_spread": 0.041,
+      "area_m2": 0.052,
+      "xy_min": [
+        -1.373,
+        -1.66
+      ],
+      "xy_max": [
+        -1.023,
+        -1.322
+      ],
+      "size_xy": [
+        0.35,
+        0.34
+      ],
+      "centroid_xy": [
+        -1.216,
+        -1.511
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -1.293,
+            -1.5,
+            0.963
+          ],
+          "clear_radius_m": 0.113
+        },
+        {
+          "xyz": [
+            -1.093,
+            -1.62,
+            0.936
+          ],
+          "clear_radius_m": 0.08
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 2143,
+      "stand_area_m2": 0.857,
+      "can_stand": true,
+      "sample_stand_xy": [
+        -0.651,
+        -1.309
+      ],
+      "nearest_waypoint": "pantry",
+      "nearest_waypoint_dist_m": 0.16
+    },
+    {
+      "z": 0.397,
+      "z_spread": 0.017,
+      "area_m2": 0.051,
+      "xy_min": [
+        -5.329,
+        0.534
+      ],
+      "xy_max": [
+        -4.925,
+        0.734
+      ],
+      "size_xy": [
+        0.4,
+        0.2
+      ],
+      "centroid_xy": [
+        -5.166,
+        0.658
+      ],
+      "placement_spots": [
+        {
+          "xyz": [
+            -5.209,
+            0.614,
+            0.393
+          ],
+          "clear_radius_m": 0.089
+        }
+      ],
+      "walkable_cells_0.4-0.8m": 0,
+      "stand_area_m2": 0.0,
+      "can_stand": false,
+      "sample_stand_xy": null,
+      "nearest_waypoint": null,
+      "nearest_waypoint_dist_m": null
+    }
+  ]
+}

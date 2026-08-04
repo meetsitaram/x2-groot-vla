@@ -1,0 +1,11 @@
+{
+  "0": {
+    "trajectory_file": "000000.trajectory.pkl",
+    "video_file": "000000.mp4",
+    "num_frames": 180,
+    "num_joints": 31,
+    "fps": 25.0,
+    "has_object": false,
+    "has_table": false
+  }
+}

@@ -1,0 +1,56 @@
+996a997,999
+>     <!-- Physical inverted down-forward mount (~40 deg down, roll 180) —
+>          VERIFIED CORRECT 2026-08-04: the raw /aima/hal/sensor/rgbd_head_front
+>          stream is down-looking AND inverted, matching this frame. -->
+1004c1007
+<   <link name="stereo_head_front">
+---
+>   <link name="stereo_head_front_left">
+1012c1015,1021
+<   <joint name="stereo_head_front" type="fixed">
+---
+>   <!-- RENAMED 2026-08-04: stereo_head_front -> stereo_head_front_left.
+>        The stock name omitted "left" and reads as if it were the rig centre,
+>        which caused real confusion during calibration. NOTE FOR SIM<->REAL
+>        BRIDGING: the ROBOT still publishes this camera's camera_info with
+>        frame_id "stereo_head_front" (topic .../stereo_head_front_left) — treat
+>        that as an alias of this link when looking up live TF. -->
+>   <joint name="stereo_head_front_left" type="fixed">
+1015c1024,1037
+<     <child link="stereo_head_front" />
+---
+>     <child link="stereo_head_front_left" />
+>     <axis xyz="0 0 0" />
+>   </joint>
+> 
+>   <!-- ADDED 2026-08-04 (x2-groot-vla calibration): the right stereo eye was
+>        absent from the stock URDF — its extrinsic existed only as factory
+>        calibration on the robot's /tf_static (parent stereo_head_front ->
+>        child stereo_head_front_right). Baseline 60.2 mm, near-zero relative
+>        rotation; name matches the robot's published camera_info frame_id. -->
+>   <link name="stereo_head_front_right" />
+>   <joint name="stereo_head_front_right" type="fixed">
+>     <origin xyz="0.060201 -0.000793 0.000603" rpy="0.001211 0.004483 -0.000753" />
+>     <parent link="stereo_head_front_left" />
+>     <child link="stereo_head_front_right" />
+1036c1058
+<   <link name="rgb_head_center">
+---
+>   <link name="rgb_head_front_center">
+1044c1066,1075
+<   <joint name="rgb_head_center" type="fixed">
+---
+>   <joint name="rgb_head_front_center" type="fixed">
+>     <!-- RENAMED 2026-08-04: rgb_head_center -> rgb_head_front_center to
+>          match the robot's published camera_info frame_id (topic
+>          /aima/hal/sensor/rgb_head_front_center). This is the 5 MP unit.
+>          VALIDATED (garage circle-center session): nominal
+>          level-forward mount CONFIRMED against real captures. The earlier
+>          +25deg-yaw "correction" was an anchor-error artifact - reverted.
+>          Note: the rgb_head_front STREAM (this camera) is the 5MP center;
+>          see calib README for stream-vs-URDF notes (rear stream ~1.3x
+>          zoomed vs camera_info; orbbec raw stream inverted per rgbd mount). -->
+1047c1078
+<     <child link="rgb_head_center" />
+---
+>     <child link="rgb_head_front_center" />
