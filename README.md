@@ -49,10 +49,16 @@ five head cameras: stream/frame_id/device naming (including the traps that
 bite everyone once), PC2 access recipe, real intrinsics, the calibrated
 URDF variant, and the four rules for placing cameras in sim so renders
 match reality. Verified 2026-08-04 against the garage splat with the real
-robot — all five mounts confirmed correct; see
-[`assets/garage/calib_2026-08-04/`](assets/garage/calib_2026-08-04/) for
-the data and
-[the five-camera comparison](assets/garage/calib_2026-08-04/pose_match/all_cams_NUREC_v3.png).
+robot — all five mounts confirmed correct; raw data in
+[`assets/garage/calib_2026-08-04/`](assets/garage/calib_2026-08-04/).
+
+![Five-camera real vs sim comparison](assets/garage/calib_2026-08-04/pose_match/all_cams_NUREC_v3_small.jpg)
+
+*Real (left) vs sim (right) for all five head cameras — X2 standing at the
+garage circle centre, sim rendered from the calibrated URDF poses through
+each camera's own intrinsics into the NuRec splat of the same room.
+Full resolution:
+[`all_cams_NUREC_v3.png`](assets/garage/calib_2026-08-04/pose_match/all_cams_NUREC_v3.png).*
 
 ## Analysis artifacts (2026-08-03)
 
