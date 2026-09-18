@@ -60,6 +60,22 @@ each camera's own intrinsics into the NuRec splat of the same room.
 Full resolution:
 [`all_cams_NUREC_v3.png`](assets/garage/calib_2026-08-04/pose_match/all_cams_NUREC_v3.png).*
 
+## Garagelab world (robot-lab scan, 2026-09)
+
+[![Garagelab drone tour](assets/garagelab/garagelab_tour_still.jpg)](assets/garagelab/garagelab_tour.mp4)
+
+*58 s cinematic drone tour rendered headless in IsaacLab: fly through a
+1073-env X2 "training farm" at head height, rise to see the scale, dive
+through the roof into the one env that is a real Scaniverse scan of the lab —
+then a wide-angle interior lap past X2s doing pico-teleop house chores
+(SONIC-executed trajectories, full root motion), a macarena from the demo
+bank, shadow boxing by the garage door, and a wave from the sofa. Videos:
+[`garagelab_tour.mp4`](assets/garagelab/garagelab_tour.mp4) (11 MB) ·
+[`garagelab_orbit.mp4`](assets/garagelab/garagelab_orbit.mp4) (1.6 MB,
+empty-room orbit). Reproduce / tweak:
+[docs/GARAGELAB-TOUR.md](docs/GARAGELAB-TOUR.md) —
+[`scripts/garagelab_tour_shot.py`](scripts/garagelab_tour_shot.py).*
+
 ## Analysis artifacts (2026-08-03)
 
 - `analysis/pickup_sweep_reach_2026-08-03.csv` — 73-clip stratified sweep
