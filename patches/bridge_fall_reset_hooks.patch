@@ -1,0 +1,36 @@
+--- a/gear_sonic_deploy/scripts/x2_mujoco_ros_bridge.py
++++ b/gear_sonic_deploy/scripts/x2_mujoco_ros_bridge.py
+@@ -1821,7 +1821,33 @@
+ 
+         # Sim-only test hooks: elastic band on/off and length ("someone
+         # holds the robot up" for the deploy's RECOVER rehearsal).
++        if payload.get("robot_stand_here") and self.has_floating_base:
++            # Sim-only fall reset: put the robot back on the floor in the stand_settled pose where it
++            # lies (same x, y and heading), all velocities zero. The deploy's SAFE_HOLD -> RECOVER
++            # gate then sees "upright and quiet" and hands back to CONTROL within ~1 s.
++            pose = _load_named_init_poses().get("stand_settled") or {}
++            target_dof = self.eval_x2.DEFAULT_DOF.astype(np.float64).copy()
++            name_to_idx = {n: i for i, n in enumerate(self.eval_x2.MUJOCO_JOINT_NAMES)}
++            for jn, off in (pose.get("offsets_rad") or {}).items():
++                if str(jn) in name_to_idx:
++                    target_dof[name_to_idx[str(jn)]] += float(off)
++            x, y = float(self.mj_data.qpos[0]), float(self.mj_data.qpos[1])
++            qw, qx, qy, qz = (float(v) for v in self.mj_data.qpos[3:7])
++            yaw = math.atan2(2 * (qw * qz + qx * qy), 1 - 2 * (qy * qy + qz * qz))
++            self.mj_data.qvel[:] = 0.0
++            for i in range(self.eval_x2.NUM_DOFS):
++                self.mj_data.qpos[self.qpos_adr[i]] = float(target_dof[i])
++            self.mj_data.qpos[0:3] = [x, y, float(pose.get("pelvis_z", 0.681))]
++            self.mj_data.qpos[3:7] = [math.cos(yaw / 2), 0.0, 0.0, math.sin(yaw / 2)]
++            print(f"[bridge] scene_reset: robot stood up in place at ({x:.2f}, {y:.2f}), "
++                  f"yaw {math.degrees(yaw):.0f} deg", flush=True)
+         if self.elastic_band is not None:
++            if payload.get("band_point_here"):
++                # re-anchor the band above the pelvis where it lies now (a robot that fell away
++                # from the origin is lifted in place, not dragged back to the world origin)
++                p = self.mj_data.xpos[self.band_attached_link]
++                self.elastic_band.point = np.array([float(p[0]), float(p[1]), 1.0])
++                print(f"[bridge] scene_reset: band anchor -> ({p[0]:.2f}, {p[1]:.2f}, 1.00)", flush=True)
+             if "band_length" in payload:
+                 self.elastic_band.length = float(payload["band_length"])
+                 print(f"[bridge] scene_reset: band length -> {self.elastic_band.length:.2f} m", flush=True)

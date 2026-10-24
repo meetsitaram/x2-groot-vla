@@ -112,6 +112,10 @@ def main():
                     help="kitchen rig, tools run on Gemma's own camera perception (world model)")
     ap.add_argument("--kitchen", action="store_true",
                     help="drive the IsaacLab kitchen rig (KP_GEMMA=1) instead of the kplanner")
+    ap.add_argument("--real", action="store_true",
+                    help="real-robot first milestone: look + gestures only (gemma_ctl/real_robot.py)")
+    ap.add_argument("--pc2-host", default=None, help="--real: robot IP (omit = local sim stack)")
+    ap.add_argument("--image", default=None, help="--real: image for look() when no live camera")
     ap.add_argument("--transcript", type=Path, default=None)
     ap.add_argument("--task", type=Path, default=None,
                     help="fixed task file (gemma_ctl/tasks/*.json): opening, request, one scripted "
@@ -120,7 +124,14 @@ def main():
                     help="one-shot utterance(s); omit for an interactive REPL")
     a = ap.parse_args()
 
-    if a.perception:
+    if a.real:
+        from .real_robot import RealExecutor, real_system, real_tool_schemas
+        ex = RealExecutor("robot" if a.pc2_host else "sim", a.pc2_host, live=a.live,
+                          image=a.image, model=a.model)
+        print(f"[real] target={ex.target} live={ex.live} runs -> {ex.run_dir}")
+        agent = Agent(a.model, ex, {}, a.host, tools=real_tool_schemas(ex.target),
+                      system=real_system(ex.target))
+    elif a.perception:
         from .executor_perception import PERCEPTION_SYSTEM, PerceptionExecutor, perception_tool_schemas
         ex = PerceptionExecutor()
         for _ in range(100):
@@ -147,6 +158,7 @@ def main():
         ex = Executor(PORTS_SIMSTACK if a.ports == "simstack" else PORTS_DEFAULT,
                       dry_run=not a.live, places=places)
         agent = Agent(a.model, ex, places, a.host)
+    interrupted = False
     try:
         if a.task:
             task = json.loads(a.task.read_text())
@@ -175,8 +187,14 @@ def main():
                 if s:
                     print(f"gemma> {agent.run(s, source='typed')}")
     except KeyboardInterrupt:
-        pass
+        interrupted = True
     finally:
+        # gesture/dance mode: a normal exit lets the playing clip finish; Ctrl-C stops it
+        if not interrupted and hasattr(ex, "wait_idle"):
+            try:
+                ex.wait_idle()
+            except KeyboardInterrupt:
+                pass
         ex.call("stop", {})
         ex.close()
         if a.transcript:

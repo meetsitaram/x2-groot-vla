@@ -204,6 +204,62 @@ python -m gemma_ctl.bench
 python -m gemma_ctl.test_llm_source
 ```
 
+## Chat with the robot in MuJoCo (gestures, dances, motion library)
+
+A small web chat drives the X2 in the MuJoCo sim stack (`simstack_local.sh` from
+GR00T-WBC-X2-supermimic). The same agent runs in a robot-stack mode
+(`gemma_ctl/real_robot.py`) with these tools:
+- `look`: the wide head camera, undistorted, and Gemma's object list.
+- `gesture`: five in-place gestures.
+- `dance`: 14 dances.
+- `move`: about 50 curated moves by category: walks, styled walks (injured,
+  crutch, catwalk, march, carrying, walking the dog), jog and run, crouch and
+  squat, boxing and kicks, more dances.
+- `find_motions` and `play_motion`: search and play anything in the full
+  library of about 9,000 clips.
+
+On the real-robot target only `look` and the five gestures are allowed.
+
+```bash
+python -m gemma_ctl.sim_guard --model supermimic
+```
+
+```bash
+GEMMA_CLIP_PORT=5668 python -m gemma_ctl.chat_web --open
+```
+
+`sim_guard` starts the stack (SuperMimic 320k, or `--model sonic`) without its
+own viewer, plus `gemma_ctl/follow_viewer.py`, a mirror viewer whose camera
+tracks the pelvis. It also **resets the robot after a fall in about 5 s**:
+1. Detect the deploy's tilt trip or SAFE_HOLD.
+2. Stand the robot back up on the floor where it fell, through the bridge's
+   `scene_reset` hook.
+3. Steady it with the ElasticBand at stand height.
+4. The deploy's own SAFE_HOLD → RECOVER hands back to CONTROL.
+5. Release the band.
+
+Two things this needs:
+- The stack must build the deploy in the worktree's own volumes
+  (`COMPOSE_PROJECT_NAME=x2sim_supermimic`). The default `docker_x2_*` cache
+  is an older build without RECOVER.
+- The bridge needs two sim-only hooks, saved as
+  `patches/bridge_fall_reset_hooks.patch` (`band_point_here`,
+  `robot_stand_here`).
+
+**Motions are not in this repo** (Bones-SEED licence). The library indexes
+`~/x2_eval_motions_supermimic/*.pkl` at run time
+(`python -m gemma_ctl.motion_library --build`), and `motion_catalog.py`
+converts the chosen clips into `runs/gemma/real/clips_merged/`. Both are
+gitignored. The code only contains clip *names* used to pick moves.
+
+Sim sweep, 2026-10-24: every catalog move played once, with "fell" meaning
+the tilt watchdog tripped.
+- SONIC ft8_w18 45000: 22 played without falling. "Run like crazy" (dropped
+  from the menu) and "crouch walk" fell.
+- SuperMimic 320k: falls on "yoga squat", and handles "run like crazy" and
+  "crouch walk".
+- Passing only means "did not fall"; tracking quality is not measured.
+
 ## Code map
 
 | File | Role |
@@ -218,6 +274,11 @@ python -m gemma_ctl.test_llm_source
 | `gemma_ctl/executor.py`, `executor_kitchen.py`, `tools.py` | earlier ground-truth executors and the G0 tool schema |
 | `gemma_ctl/bundle.py`, `overlay_video.py`, `make_paced.py`, `finish_take.sh` | run bundles and video |
 | `gemma_ctl/scene3d.py` | 3D viewer export of the world model |
+| `gemma_ctl/real_robot.py` | robot-stack mode: look, gesture, dance, move, find/play motion (sim) or look + gestures (robot) |
+| `gemma_ctl/motion_library.py`, `motion_catalog.py` | searchable index of the local motion pkls; curated named moves (no motion data in the repo) |
+| `gemma_ctl/chat_web.py`, `chat_web.html` | compact web chat, http://127.0.0.1:8790 |
+| `gemma_ctl/sim_guard.py`, `follow_viewer.py` | sim stack supervisor with the 5 s fall reset; follow-camera mirror viewer |
+| `patches/bridge_fall_reset_hooks.patch` | sim-only `scene_reset` hooks for the fall reset (GR00T-WBC-X2-supermimic bridge) |
 | `gemma_ctl/tasks/*.json` | scripted operator tasks |
 | `patches/pc2_kplanner_llm_source.patch` | `llm` command source in `pc2_kplanner_onnx.py` (runtime repo) |
 | `patches/kitchen_rig_gemma_hooks.patch` | `KP_GEMMA` hooks, `KP_RING_S`, `KP_PAD_PORT`, `KP_SPAWN`, depth camera (runtime repo) |
