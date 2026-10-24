@@ -38,6 +38,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .thinking{color:var(--muted);font-style:italic}
 form{display:flex;gap:6px;padding:6px 10px 8px;border-top:1px solid var(--line);flex:none}
 input{flex:1;min-width:0;font:inherit;padding:8px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--fg)}
+#mic{font-size:18px;padding:4px 10px}
+#mic.rec{background:var(--bad);border-color:var(--bad);color:#fff}
 #send{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
 .quick{display:flex;gap:4px;padding:0 10px 6px;flex:none;overflow-x:auto}
 .quick button{font-size:14px;padding:2px 8px;white-space:nowrap;color:var(--muted)}
@@ -56,7 +58,8 @@ input{flex:1;min-width:0;font:inherit;padding:8px 10px;border-radius:6px;border:
   <button type="button">do a high jump</button><button type="button">what moves do you know?</button>
 </div>
 <form id="f">
-  <input id="t" autocomplete="off" placeholder="Talk to the robot…" aria-label="Message">
+  <button id="mic" type="button" title="Hold to talk (or hold the space bar when the box is empty)" aria-label="Hold to talk">🎤</button>
+  <input id="t" autocomplete="off" placeholder="Talk to the robot… or hold 🎤" aria-label="Message">
   <button id="send" type="submit">Send</button>
 </form>
 <script>
@@ -79,6 +82,32 @@ async function send(text){
 document.getElementById('f').onsubmit=e=>{e.preventDefault(); send(t.value.trim());};
 document.querySelectorAll('.quick button').forEach(b=>b.onclick=()=>send(b.textContent));
 document.getElementById('stop').onclick=()=>fetch('/api/stop',{method:'POST'});
+// ---- voice: hold the mic (or space with an empty box), release to send. Gemma 4 E4B hears it,
+// the chat model acts on the words.
+let rec=null, chunks=[];
+const mic=document.getElementById('mic');
+async function micDown(){
+  if(rec||busy) return;
+  try{ const st=await navigator.mediaDevices.getUserMedia({audio:true});
+    rec=new MediaRecorder(st); chunks=[];
+    rec.ondataavailable=e=>chunks.push(e.data);
+    rec.onstop=async()=>{ st.getTracks().forEach(x=>x.stop()); const blob=new Blob(chunks,{type:rec.mimeType}); rec=null; mic.classList.remove('rec');
+      if(blob.size<2000) return;
+      busy=true; const w=add('gemma thinking','listening…');
+      try{ const r=await (await fetch('/api/voice',{method:'POST',body:blob})).json();
+        if(r.heard){ const y=document.createElement('div'); y.className='msg you'; y.textContent='🎤 '+r.heard; log.insertBefore(y,w); }
+        w.className='msg gemma';
+        const chips=(r.actions||[]).map(a=>`<span class="chip${a.ok?'':' err'}">${a.ok?'▶':'✕'} ${esc(a.label)}${a.seconds?` · ${a.seconds}s`:''}</span>`).join('');
+        w.innerHTML=`<span class="who">Gemma</span>${esc(r.reply||'')}${chips?`<div class="acts">${chips}</div>`:''}`;
+      }catch(e){ w.className='msg gemma'; w.innerHTML='<span class="who">Gemma</span>(voice failed)'; }
+      log.scrollTop=log.scrollHeight; busy=false; };
+    rec.start(); mic.classList.add('rec');
+  }catch(e){ add('gemma','<span class="who">Gemma</span>(no microphone access)'); }
+}
+function micUp(){ if(rec&&rec.state==='recording') rec.stop(); }
+mic.addEventListener('pointerdown',micDown); mic.addEventListener('pointerup',micUp); mic.addEventListener('pointerleave',micUp);
+document.addEventListener('keydown',e=>{ if(e.code==='Space'&&!e.repeat&&t.value===''){ e.preventDefault(); micDown(); }});
+document.addEventListener('keyup',e=>{ if(e.code==='Space'&&t.value===''){ e.preventDefault(); micUp(); }});
 async function poll(){
   try{ const s=await (await fetch('/api/status')).json();
     if(window._page && s.page!==window._page){ location.reload(); return; }   // page updated on disk

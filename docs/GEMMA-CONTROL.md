@@ -260,6 +260,56 @@ the tilt watchdog tripped.
   "crouch walk".
 - Passing only means "did not fall"; tracking quality is not measured.
 
+## Voice (Gemma 4 E4B hears, 26B decides)
+
+The chat page has a hold-to-talk 🎤 button; holding the space bar in an empty
+box also works.
+- The browser recording is converted to 16 kHz WAV.
+- **Gemma 4 E4B** transcribes it. Ollama takes the audio through the `images`
+  field of `/api/chat`.
+- The words go to the 26B agent.
+- A short utterance that sounds like "stop" (stop, so, sa, halt, …) stops at
+  once without the agent. Stopping is always safe, and one-word clips are
+  E4B's weak spot.
+
+`gemma_ctl/audio_bench.py` benchmarks this with 20 spoken commands (Piper
+text-to-speech, clean and with 10 dB noise):
+- 15% word error rate;
+- 17/20 commands trigger the right move, clean and noisy alike;
+- about 0.1–0.2 s to hear.
+
+## Real robot: look only
+
+With `--pc2-host` set, the robot-stack mode gives Gemma **only `look`**:
+- the tool list is `look`;
+- `call()` refuses every other tool;
+- the clip sender raises before it could ever open a motion socket.
+
+Camera access is read-only. Use `docs/CAMERAS.md` for names, mounts and the
+inverted Orbbec.
+- `gemma_ctl/pc2_grab_all.py`: one synchronized frame from every head camera,
+  plus Orbbec depth and each camera's calibration.
+- `gemma_ctl/multicam_look.py`: Gemma boxes on every camera. Directions come
+  from the calibrated URDF and distances from Orbbec depth. It scores how far
+  each camera's box is from where it should see the Orbbec-located object.
+- `gemma_ctl/pc2_live_streamer.py` (runs on PC2 with `python3 -s`, so it never
+  touches PC2's user-site numpy) and `gemma_ctl/live_view.py` (here, at
+  http://127.0.0.1:8791): live Orbbec video with Gemma boxes, labels and depth
+  distances, re-detected about once a second.
+
+Findings, 2026-10-24:
+- **Gemma reads the raw stereo fisheye well.** It finds more objects there than
+  on the undistorted 110° view, which crops the edges. The undistorted view
+  still finds small objects in the centre (a laptop, a bottle).
+- **Stereo right** vs the Orbbec 3D points: median 5.8°, about 0° sideways and
+  about +5.6° up. The vertical part is consistent across objects, so it is
+  likely the Orbbec's real tilt (about 45°) against the URDF's 40°.
+- **Stereo left** is about 9.5° pitched relative to the right eye. The August
+  calibration measured 0°, so the left module has shifted in its mount, and it
+  is also blurry. Stereo depth is unusable until it is re-seated and
+  recalibrated.
+- **The 5 MP front center camera** is blurry and Gemma found nothing in it.
+
 ## Code map
 
 | File | Role |

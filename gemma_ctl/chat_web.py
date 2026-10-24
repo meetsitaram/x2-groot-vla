@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import threading
 import time
@@ -20,6 +21,40 @@ from .agent import Agent, OLLAMA
 from .real_robot import RealExecutor, real_system, real_tool_schemas
 
 PAGE = Path(__file__).with_name("chat_web.html")
+
+
+HEAR_MODEL = "gemma4:e4b"      # Gemma 4 E4B hears (native audio); the chat model decides
+HEAR_PROMPT = ("Transcribe exactly what the speaker says, in English. Output only the spoken words, "
+               "no quotes, no commentary. If nobody speaks, output nothing.")
+
+
+def transcribe(audio_bytes):
+    """Browser recording (webm/opus/ogg/wav) -> 16 kHz mono wav -> Gemma 4 E4B -> text."""
+    import base64
+    import tempfile
+    import urllib.request
+    with tempfile.TemporaryDirectory() as d:
+        src, wav = Path(d) / "in.bin", Path(d) / "in.wav"
+        src.write_bytes(audio_bytes)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src), "-ac", "1", "-ar", "16000", str(wav)],
+                       check=True, timeout=30)
+        b64 = base64.b64encode(wav.read_bytes()).decode()
+    body = json.dumps({"model": HEAR_MODEL, "stream": False, "think": False, "options": {"temperature": 0},
+                       "messages": [{"role": "user", "content": HEAR_PROMPT, "images": [b64]}]}).encode()
+    t0 = time.monotonic()
+    r = json.loads(urllib.request.urlopen(urllib.request.Request(
+        f"{OLLAMA}/api/chat", data=body, headers={"Content-Type": "application/json"}), timeout=60).read())
+    return r["message"]["content"].strip().strip('"'), round(time.monotonic() - t0, 2)
+
+
+_STOPLIKE = {"stop", "stopp", "stop it", "so", "sa", "top", "stob", "stap", "halt", "freeze", "wait",
+             "stop stop", "please stop", "stop now", "enough"}
+
+
+def sounds_like_stop(text):
+    """Short utterance that is (or is a common mishearing of) 'stop'. Stopping is always safe."""
+    t = " ".join(re.findall(r"[a-z]+", text.lower()))
+    return t in _STOPLIKE or (len(t) <= 5 and t[:1] == "s" and "t" in t and "p" in t)
 
 
 class Session:
@@ -97,7 +132,8 @@ def make_handler(sess):
 
         def do_POST(self):
             n = int(self.headers.get("Content-Length") or 0)
-            body = json.loads(self.rfile.read(n) or b"{}")
+            raw = self.rfile.read(n) if n else b""
+            body = {} if self.path == "/api/voice" else json.loads(raw or b"{}")
             if self.path == "/api/chat":
                 text = str(body.get("text", "")).strip()[:500]
                 if not text:
@@ -106,6 +142,20 @@ def make_handler(sess):
                     self._json(sess.chat(text))
                 except Exception as e:  # keep the page alive
                     self._json({"reply": f"(error: {type(e).__name__}: {e})", "actions": []})
+            elif self.path == "/api/voice":
+                try:
+                    heard, hear_s = transcribe(raw)
+                except Exception as e:
+                    return self._json({"heard": "", "reply": f"(could not hear: {type(e).__name__}: {e})", "actions": []})
+                if not heard:
+                    return self._json({"heard": "", "reply": "(I did not catch anything)", "actions": []})
+                if sounds_like_stop(heard):        # safety fast path: never let a misheard "stop" slip
+                    sess.ex.call("stop", {})
+                    return self._json({"heard": heard, "hear_s": hear_s, "reply": "Stopped.",
+                                       "actions": [{"tool": "stop", "label": "stop", "ok": True}]})
+                out = sess.chat(heard)
+                out.update(heard=heard, hear_s=hear_s)
+                self._json(out)
             elif self.path == "/api/stop":
                 self._json(sess.ex.call("stop", {}))
             elif self.path == "/api/reset":

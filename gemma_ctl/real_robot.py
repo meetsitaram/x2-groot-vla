@@ -112,8 +112,20 @@ SIM_DANCE_RULE = """
 - Motions that travel (travels_m above 1) move the robot across the floor; that is fine here."""
 
 
+ROBOT_LOOK_SYSTEM = """You are the eyes of a real humanoid robot (AgiBot X2). You can ONLY look through
+its head camera; you cannot move it in any way (no walking, gestures, dances or stopping), and you
+must never claim that it moved. Rules:
+- When asked what the robot sees, call look and describe the main things briefly, saying roughly
+  where they are (left, ahead, right). Do not invent objects look did not return.
+- If asked to move, gesture or dance, say that motion is disabled on the real robot; only looking.
+- Reply in one or two short sentences (a list of objects may be longer)."""
+
+
 def real_tool_schemas(target="sim"):
     from .tools import _fn
+    if target == "robot":                   # REAL ROBOT: look only -- no motion tool exists at all
+        return [_fn("look", "Look through the robot's head camera. Returns the objects it can see "
+                    "and roughly where they are.")]
     tools = [
         _fn("look", "Look through the robot's head camera. Returns the objects it can see "
             "and roughly where they are."),
@@ -145,7 +157,9 @@ def real_tool_schemas(target="sim"):
 
 
 def real_system(target="sim"):
-    return REAL_SYSTEM + (SIM_DANCE_RULE if target == "sim" else "")
+    if target == "robot":
+        return ROBOT_LOOK_SYSTEM
+    return REAL_SYSTEM + SIM_DANCE_RULE
 
 
 def _clip_seconds(key):
@@ -203,6 +217,8 @@ class RealExecutor:
             self._send_clip_locked(payload)
 
     def _send_clip_locked(self, payload):
+        if self.target == "robot":          # hard lock: nothing that moves the real robot is ever sent
+            raise RuntimeError("motion is disabled on the real robot (look-only)")
         line = json.dumps(payload)
         if not self.live:
             print(f"  [dry-run] motion_clip_cmd -> {self.target}: {line}", flush=True)
@@ -321,6 +337,8 @@ class RealExecutor:
         return {"ok": True, "stopped": True}
 
     def call(self, name, args):
+        if self.target == "robot" and name != "look":
+            return {"ok": False, "error": "motion is disabled on the real robot; only look is allowed"}
         fn = getattr(self, f"t_{name}", None)
         if fn is None:
             return {"ok": False, "error": f"no tool {name}"}
