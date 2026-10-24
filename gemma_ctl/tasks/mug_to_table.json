@@ -1,0 +1,9 @@
+{
+  "name": "mug_to_table",
+  "scene": "gemma_ctl/kitchen_scene_v1.json",
+  "opening": "Hey robot, what do you see in the kitchen?",
+  "request": "Pick up the black mug next to the stove and put it on the white table.",
+  "clarify": "The black mug next to the stove.",
+  "check": "Where is the mug now?",
+  "success": {"object": "mug", "on": "white table", "near_xy": [2.1, -1.15], "radius_m": 0.45}
+}

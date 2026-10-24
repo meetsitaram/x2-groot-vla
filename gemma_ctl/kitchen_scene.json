@@ -1,0 +1,26 @@
+{
+ "objects": [
+  {
+   "name": "mug",
+   "desc": "white mug",
+   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Mug023/Mug023.usd",
+   "xyz": [
+    0.34,
+    1.43,
+    0.874
+   ],
+   "yaw": 0.0
+  },
+  {
+   "name": "can",
+   "desc": "soda can",
+   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Beer003/Beer003.usd",
+   "xyz": [
+    2.1,
+    -1.29,
+    0.726
+   ],
+   "yaw": 0.0
+  }
+ ]
+}

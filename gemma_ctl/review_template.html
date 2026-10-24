@@ -1,0 +1,159 @@
+<title>Gemma Kitchen Run</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a run log — the film first, then one card per step, then the call trace and the ledger of what is real. */
+:root{
+  --bg:#f6f7f4; --panel:#ffffff; --fg:#1d2320; --muted:#5d6862; --line:#d9ded8;
+  --accent:#1f7a5c; --accent-soft:#e1f0ea; --warn:#9a5b00; --warn-soft:#f7ecd9;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Source Serif 4",Georgia,serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131715; --panel:#1b201d; --fg:#e4e9e5; --muted:#9aa59f; --line:#2e3631;
+  --accent:#5cc39d; --accent-soft:#1d3a2f; --warn:#e0a54a; --warn-soft:#3a2d17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131715; --panel:#1b201d; --fg:#e4e9e5; --muted:#9aa59f; --line:#2e3631;
+  --accent:#5cc39d; --accent-soft:#1d3a2f; --warn:#e0a54a; --warn-soft:#3a2d17; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:17px/1.6 var(--body);padding:0 16px}
+main{max-width:1040px;margin:0 auto;padding-block:28px 64px;display:flex;flex-direction:column;gap:40px}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:700}
+p{margin:0;max-width:70ch}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+header{display:flex;flex-direction:column;gap:12px}
+.lede{color:var(--muted);font-size:18px}
+section{display:flex;flex-direction:column;gap:14px}
+video,img.media{width:100%;max-width:100%;border-radius:8px;border:1px solid var(--line);background:#000;display:block;aspect-ratio:16/9;height:auto}
+img.map{width:100%;max-width:560px;border-radius:8px;border:1px solid var(--line);background:#fff}
+.cap{font:13px/1.5 var(--mono);color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.fact b{font:800 26px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.fact span{font-size:14px;color:var(--muted);line-height:1.4}
+.clips{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.clip{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.clip figcaption{display:flex;flex-direction:column;gap:2px}
+.clip figcaption b{font:700 15px/1.3 var(--display)}
+.clip figcaption span{font:12px/1.4 var(--mono);color:var(--muted)}
+.trace{display:flex;flex-direction:column;gap:18px}
+.turn{border-left:3px solid var(--line);padding-left:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.say{font-style:italic}
+.say::before{content:"You  ";font:600 12px var(--mono);font-style:normal;color:var(--muted);letter-spacing:.08em}
+.call{font:14px/1.5 var(--mono);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;min-width:0}
+.call .fn{font-weight:600;color:var(--accent);overflow-wrap:anywhere}
+.call .res{color:var(--muted);overflow-wrap:anywhere}
+.call .xyz{flex-basis:100%;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.call .xyz::before{content:"resolved → ";color:var(--accent)}
+.call .lat{margin-left:auto;color:var(--muted);font-size:12px}
+.pill{font:600 11px/1 var(--mono);padding:4px 7px;border-radius:99px;letter-spacing:.04em}
+.ok{background:var(--accent-soft);color:var(--accent)}
+.retry{background:var(--warn-soft);color:var(--warn)}
+.reply::before{content:"Gemma  ";font:600 12px var(--mono);color:var(--accent);letter-spacing:.08em}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
+.two > *{min-width:0}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:520px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+ol,ul{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;max-width:70ch}
+.shortcut{color:var(--warn);font-weight:600}
+code{font-family:var(--mono);font-size:.9em}
+footer{color:var(--muted);font:13px/1.6 var(--mono);border-top:1px solid var(--line);padding-top:16px}
+</style>
+<main>
+<header>
+  <div class="eyebrow">X2 · IsaacLab kitchen · Gemma 4 26B · 2026-10-23</div>
+  <h1>Gemma drives the X2 around the kitchen</h1>
+  <p class="lede">Four plain-English requests. Gemma turned each into tool calls; SONIC walked and reached; the mug went to the sink and the soda can to the stove counter. Filmed from fixed tripod cameras at 1080p.</p>
+</header>
+
+<section>
+  <video controls playsinline muted preload="metadata" poster="review/full.jpg" src="review/full.mp4"></video>
+  <p class="cap">Whole run at __FULLSPEED__× (__SIM__ s of sim time). The top bar shows the request and the tool call running; the badge bottom-right shows playback speed.</p>
+</section>
+
+<section class="facts" aria-label="Run summary">
+  <div class="fact"><b>4 / 4</b><span>requests completed</span></div>
+  <div class="fact"><b>__CALLS__</b><span>tool calls succeeded</span></div>
+  <div class="fact"><b>0</b><span>falls</span></div>
+  <div class="fact"><b>~0.2 s</b><span>Gemma decision time on the 5090</span></div>
+</section>
+
+<section>
+  <h2>Step by step</h2>
+  <p>Walks play at 4×, reaches at 2×. Tap a card to play it.</p>
+  <div class="clips">
+__CARDS__
+  </div>
+</section>
+
+<section>
+  <h2>What Gemma said and called</h2>
+  <p>Gemma only names things. The “resolved” line under each call is what the executor turned that name into: the standing spot and the palm targets, in metres in the kitchen frame.</p>
+  <div class="trace">
+__TRACE__
+  </div>
+</section>
+
+<section>
+  <h2>Who found the mug and the sink</h2>
+  <p>Gemma did the language part. It read “bring the mug over to the sink” and chose <code>pick(mug)</code>, then <code>place(sink_counter)</code>. The geometry came from elsewhere:</p>
+  <ol>
+    <li><strong>The mug's position</strong> comes from the simulator, which spawned it. <code>look()</code> hands Gemma that list as text.</li>
+    <li><strong>The sink counter</strong> is a named spot in a catalog built offline from the kitchen scan: a surface point, a standing pose 0.3 m away, and the nearest waypoint.</li>
+    <li><strong>Walking there</strong> is an A* route on the kitchen floor map, driven closed-loop on the robot's measured pose.</li>
+    <li><strong>The reach</strong> is IK aiming the palm at the object, executed by SONIC, then nudged until the palm is within a few cm.</li>
+    <li><strong>The grasp</strong> attaches the object to the wrist in the sim once the palm is close. No fingers close on it.</li>
+  </ol>
+  <div class="two">
+    <div>
+      <img class="media" src="review/vision_check.jpg" alt="Two frames: left is the stove area, which Gemma called a sink; right is the sink with the mug at the robot's hand, Gemma's claimed mug pixel circled in red on the robot's leg.">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h2 style="font-size:17px">Can Gemma see them itself?</h2>
+      <p>Not reliably yet. Four frames from the run were sent to Gemma 26B, asking for the mug and the sink.</p>
+      <ul>
+        <li>It found the mug in 1 of 4 frames. Its description was right (“small black mug… left of the sink”), but the pixel it gave lands on the robot's leg (red circle).</li>
+        <li>It called the stove a sink (left frame).</li>
+      </ul>
+      <p>The fix is an open-vocabulary detector for where things are, with Gemma choosing what to act on.</p>
+    </div>
+  </div>
+</section>
+
+<section class="two">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <h2>Route</h2>
+    <p>Robot path from the run log, coloured by step. Red squares are the pick and place spots.</p>
+  </div>
+  <img class="map" src="review/route_map.png" alt="Top-down kitchen map with the robot's path between the stove counter, sink counter, side table and fridge.">
+</section>
+
+<section>
+  <h2>Which Gemma to run</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Model</th><th>Correct (50 commands)</th><th>Refused unsafe / unknown</th><th>Median decision</th><th>Size</th></tr></thead>
+    <tbody>
+      <tr><td>gemma4:26b (MoE, 4B active)</td><td class="num">50 / 50</td><td class="num">8 / 8</td><td class="num">0.27 s</td><td>18 GB · 5090 or Thor</td></tr>
+      <tr><td>gemma4:e4b</td><td class="num">48 / 50</td><td class="num">8 / 8</td><td class="num">0.07 s</td><td>6.6 GB</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Real and shortcut</h2>
+  <ul>
+    <li><strong>Real:</strong> every step and reach is SONIC under physics, and so are the waist lean and arm motion. The robot never fell.</li>
+    <li><span class="shortcut">Shortcut: the grasp.</span> The object attaches to the wrist once the palm is close; objects are visual-only props.</li>
+    <li><span class="shortcut">Shortcut: perception.</span> Object positions come from the sim, not the camera (see above).</li>
+    <li><strong>Limit:</strong> SONIC follows the hand target with 4–8 cm error before correction, and won't bring the palm much below 0.9 m. Low surfaces are marginal.</li>
+  </ul>
+</section>
+
+<footer>code gemma_ctl/ · rig run_x2_kplanner_env2.py with KP_GEMMA=1 · tripod cameras on 21 fixed stations, ~2 s aim smoothing</footer>
+</main>

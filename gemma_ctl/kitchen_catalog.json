@@ -1,0 +1,74 @@
+{
+  "stove_counter": {
+    "obj_xyz": [
+      0.34,
+      1.43,
+      0.874
+    ],
+    "stand": {
+      "xy": [
+        0.077,
+        1.334
+      ],
+      "yaw": 0.349
+    },
+    "reach_m": 0.28,
+    "stand_esdf": 0.22,
+    "via": "cooking_range",
+    "desc": "counter next to the stove"
+  },
+  "sink_counter": {
+    "obj_xyz": [
+      -0.91,
+      2.45,
+      0.863
+    ],
+    "stand": {
+      "xy": [
+        -0.858,
+        2.155
+      ],
+      "yaw": 1.745
+    },
+    "reach_m": 0.3,
+    "stand_esdf": 0.22,
+    "via": "sink",
+    "desc": "counter beside the sink"
+  },
+  "dishwasher_counter": {
+    "obj_xyz": [
+      -0.81,
+      2.48,
+      0.864
+    ],
+    "stand": {
+      "xy": [
+        -0.66,
+        2.22
+      ],
+      "yaw": 2.094
+    },
+    "reach_m": 0.3,
+    "stand_esdf": 0.22,
+    "via": "dishwasher",
+    "desc": "counter above the dishwasher"
+  },
+  "side_table": {
+    "obj_xyz": [
+      2.1,
+      -1.29,
+      0.726
+    ],
+    "stand": {
+      "xy": [
+        1.93,
+        -1.584
+      ],
+      "yaw": 1.047
+    },
+    "reach_m": 0.34,
+    "stand_esdf": 0.22,
+    "via": "dining_table",
+    "desc": "side table by the dining area"
+  }
+}

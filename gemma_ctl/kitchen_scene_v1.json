@@ -1,0 +1,55 @@
+{
+ "objects": [
+  {
+   "name": "mug",
+   "desc": "big black mug",
+   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Mug023/Mug023.usd",
+   "scale": 1.7,
+   "xyz": [
+    0.34,
+    1.43,
+    0.874
+   ]
+  },
+  {
+   "name": "pot",
+   "desc": "cooking pot",
+   "usd": "/home/stickbot/projects/g1-kitchen-sim/assets/nvidia_kitchen/kitchen_assets_usd/pot.usd",
+   "xyz": [
+    0.1,
+    2.62,
+    0.869
+   ]
+  },
+  {
+   "name": "kettle",
+   "desc": "kettle",
+   "usd": "/home/stickbot/projects/g1-kitchen-sim/assets/nvidia_kitchen/kitchen_assets_usd/kettle.usd",
+   "xyz": [
+    2.1,
+    -1.29,
+    0.726
+   ]
+  },
+  {
+   "name": "pitcher",
+   "desc": "pitcher",
+   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Pitcher031/Pitcher031.usd",
+   "xyz": [
+    -0.91,
+    2.45,
+    0.863
+   ]
+  },
+  {
+   "name": "can",
+   "desc": "soda can",
+   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Beer003/Beer003.usd",
+   "xyz": [
+    0.22,
+    1.61,
+    0.781
+   ]
+  }
+ ]
+}

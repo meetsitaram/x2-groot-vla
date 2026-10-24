@@ -1,0 +1,95 @@
+diff --git a/gear_sonic/envs/manager_env/modular_tracking_env_cfg.py b/gear_sonic/envs/manager_env/modular_tracking_env_cfg.py
+index b970edf..746e317 100644
+--- a/gear_sonic/envs/manager_env/modular_tracking_env_cfg.py
++++ b/gear_sonic/envs/manager_env/modular_tracking_env_cfg.py
+@@ -297,7 +297,9 @@ class MySceneCfg(InteractiveSceneCfg):
+                 offset=_cam_cls.OffsetCfg(
+                     pos=(0, 0, 0), rot=(1, 0, 0, 0), convention="world"
+                 ),
+-                data_types=["rgb"],
++                # eval_camera_data_types: e.g. [rgb, distance_to_image_plane] for
++                # Gemma perception (depth lifts 2D boxes to 3D). Default unchanged.
++                data_types=list(config.get("eval_camera_data_types", ["rgb"])),
+                 spawn=sim_utils.PinholeCameraCfg(
+                     focal_length=5.0,
+                     focus_distance=50.0,
+diff --git a/gear_sonic/scripts/x2-navigation/run_x2_kplanner_env2.py b/gear_sonic/scripts/x2-navigation/run_x2_kplanner_env2.py
+index c6861af..4294d45 100644
+--- a/gear_sonic/scripts/x2-navigation/run_x2_kplanner_env2.py
++++ b/gear_sonic/scripts/x2-navigation/run_x2_kplanner_env2.py
+@@ -88,7 +88,7 @@ _SCHED_TOTAL = sum(s[0] for s in INTENT_SCHEDULE)
+ # its default target 127.0.0.1:5563 — the driver binds a SUB there and
+ # relays onto the sim-clocked daemon wire). Schedule ignored; no pad -> 0.
+ _PAD_MODE = os.environ.get("KP_PAD", "0") == "1"
+-PAD_IN_PORT = 5563
++PAD_IN_PORT = int(os.environ.get("KP_PAD_PORT", "5563"))   # KP_PAD_PORT: run beside a live 5563 stack
+ 
+ 
+ def _sticks_at(t: float):
+@@ -521,7 +521,9 @@ class _Driver:
+         dev = lib._device  # noqa: SLF001
+         self.dev = dev
+         self.fps = float(1.0 / lib._motion_dt[0].item())  # noqa: SLF001
+-        self.ring_n = int(120.0 * self.fps)
++        # KP_RING_S: ring length (s). The eval env resets when playback wraps
++        # the ring, so long sessions (Gemma missions) need more than 120 s.
++        self.ring_n = int(float(os.environ.get("KP_RING_S", "120")) * self.fps)
+ 
+         self.mj2il = np.asarray(lib.m_cfg.mujoco_to_isaaclab_dof)
+         self.b_mj2il = np.asarray(lib.m_cfg.mujoco_to_isaaclab_body)
+@@ -647,6 +649,19 @@ class _Driver:
+         if os.environ.get("KP_STUDENT"):
+             self.pilot = _StudentPilot(self)
+ 
++        # KP_GEMMA=1: Gemma agent manipulation layer (arm-reach overlay on
++        # the reference rows, scene props, kinematic grasp, state PUB) —
++        # x2-groot-vla/gemma_ctl/rig_hooks.py. Runner-owned, off by default.
++        self.gemma = None
++        if os.environ.get("KP_GEMMA") == "1":
++            import importlib.util as _ilu
++            _spec = _ilu.spec_from_file_location("gemma_rig_hooks", os.environ.get(
++                "KP_GEMMA_HOOKS",
++                "/home/stickbot/projects/x2-groot-vla/gemma_ctl/rig_hooks.py"))
++            _mod = _ilu.module_from_spec(_spec)
++            _spec.loader.exec_module(_mod)
++            self.gemma = _mod.GemmaHooks(self)
++
+         self.last_sticks = None
+         self.wall0 = time.monotonic()
+         self.tl_path = os.path.join(SCRATCH, "kp_timeline.jsonl")
+@@ -807,6 +822,17 @@ class _Driver:
+                 np.asarray(ainner["root_trans_offset"]).reshape(-1, 3)[0],
+                 np.asarray(ainner["root_rot"]).reshape(-1, 4)[0],  # xyzw
+             )
++            # KP_SPAWN="x,y,yaw_deg": spawn the robot there (kitchen frame)
++            # instead of the anchor clip's origin. Runner-owned, off by default.
++            sp = os.environ.get("KP_SPAWN")
++            if sp:
++                import math as _ms
++                sx, sy, syaw = [float(v) for v in sp.split(",")]
++                tr = np.array(self._anchor[1], dtype=np.float64); tr[0], tr[1] = sx, sy
++                h = _ms.radians(syaw) / 2.0
++                self._anchor = (self._anchor[0], tr,
++                                np.array([0.0, 0.0, _ms.sin(h), _ms.cos(h)]))
++                print(f"[kp-env2] KP_SPAWN: robot spawns at ({sx:+.2f}, {sy:+.2f}) yaw {syaw:.0f} deg", flush=True)
+         a_dof, a_trans, a_rot = self._anchor
+         self.prev_dof_il = None
+         self.prev_trans = None
+@@ -842,6 +868,8 @@ class _Driver:
+         np, torch = self.np, self.torch
+         lib, dev = self.lib, self.dev
+         r = row % self.ring_n
++        if getattr(self, "gemma", None) is not None:
++            dof_mj = self.gemma.override_row(dof_mj)
+         dof_il = np.asarray(dof_mj, dtype=np.float32)[self.mj2il]
+         t_dof = torch.tensor(dof_il, dtype=torch.float32, device=dev)
+         t_trans = torch.tensor(np.asarray(trans, dtype=np.float32), device=dev)
+@@ -915,6 +943,8 @@ class _Driver:
+                 self.pack_robot_pose(t_sim, pelvis))
+         except Exception:
+             pass
++        if self.gemma is not None:
++            self.gemma.tick()
+ 
+         # 2. publish scheduled sticks (pad wire schema), on change + 1 Hz beat
+         # Env reset detection (playhead rewound): fire a 0.3 s micro

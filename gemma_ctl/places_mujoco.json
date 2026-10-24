@@ -1,0 +1,5 @@
+{
+  "start": {"xy": [0.0, 0.0], "note": "spawn point (planner odometry frame)"},
+  "front_marker": {"xy": [2.0, 0.0], "note": "2 m ahead of spawn"},
+  "left_marker": {"xy": [0.0, 1.5], "note": "1.5 m left of spawn"}
+}

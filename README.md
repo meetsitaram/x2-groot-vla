@@ -76,6 +76,34 @@ empty-room orbit). Reproduce / tweak:
 [docs/GARAGELAB-TOUR.md](docs/GARAGELAB-TOUR.md) —
 [`scripts/garagelab_tour_shot.py`](scripts/garagelab_tour_shot.py).*
 
+## Gemma control (branch `gemma-control`, 2026-10)
+
+Gemma 4 drives the X2 by language: it perceives the kitchen through the
+room cameras and the robot's head cameras, and calls coarse tools (look,
+pick, place, go_to). An executor turns those calls into kplanner commands
+and IK, and SONIC moves the body. Proven in the IsaacLab kitchen, off-robot
+over WiFi. Architecture, how to run it, and where the GR00T VLA slots in:
+**[docs/GEMMA-CONTROL.md](docs/GEMMA-CONTROL.md)**.
+
+[![Gemma pick-and-place from the door (10× teaser; click for the full video)](assets/gemma/gemma_mug_to_table.gif)](assets/gemma/gemma_mug_to_table.mp4)
+
+*The robot starts at the kitchen door. Asked to "pick up the black mug next
+to the stove and put it on the white table", Gemma 4 26B finds the mug
+through the room cameras and the robot's wide head camera. The executor
+walks the robot over, and the head cameras and Orbbec tighten the mug's
+position from ±7 cm to ±1.3 cm. The robot picks the mug on the first try
+and places it on the table (palm 4.4 cm off), the Orbbec confirms the
+place, and Gemma answers "where is the mug now?". The bottom strip shows the
+conversation, Gemma's tool call, and what the stack is doing (route,
+kplanner sticks, IK). The boxes are Gemma's own 3D world model. The full
+video plays at 1× while the conversation updates and 4× in between. The GIF
+above is a 10 s teaser at ten times that, so its speed badges refer to the
+full video. Video:
+[`gemma_mug_to_table.mp4`](assets/gemma/gemma_mug_to_table.mp4) (7 MB,
+1 min 40 s). What the Orbbec RGB-D saw before the pick, after the place,
+and as depth:
+[`gemma_orbbec_views.jpg`](assets/gemma/gemma_orbbec_views.jpg).*
+
 ## Analysis artifacts (2026-08-03)
 
 - `analysis/pickup_sweep_reach_2026-08-03.csv` — 73-clip stratified sweep

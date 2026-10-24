@@ -1,0 +1,80 @@
+diff --git a/gear_sonic/scripts/pc2_kplanner_onnx.py b/gear_sonic/scripts/pc2_kplanner_onnx.py
+index 8d68414..1cfcedc 100644
+--- a/gear_sonic/scripts/pc2_kplanner_onnx.py
++++ b/gear_sonic/scripts/pc2_kplanner_onnx.py
+@@ -738,7 +738,25 @@ _guard_latched = {"on": False}
+ # The VR manager keepalives every 0.5 s while engaged, so 2.0 s can only
+ # expire when the manager is actually gone (crash / network loss).
+ _VR_OWNER_TIMEOUT_S = 2.0
+-_cmd_owner = {"src": None, "vr_ts": 0.0}
++# LLM agent source (x2-groot-vla gemma_ctl, 2026-10-23): LOWEST priority and
++# remote over wifi. Any pad/VR message preempts it and locks it out for
++# _LLM_LOCKOUT_S after the last human message; while it owns, silence longer
++# than _LLM_SILENCE_S (agent heartbeats every 0.3 s) = link loss -> idle +
++# primitive exit, so a dropped wifi link can never leave a latched walk.
++_LLM_SILENCE_S = 1.0
++_LLM_LOCKOUT_S = 3.0
++_cmd_owner = {"src": None, "vr_ts": 0.0, "llm_ts": 0.0, "human_ts": 0.0}
++
++
++def _llm_silence_check() -> bool:
++    """True (and owner released) when the LLM owner went silent."""
++    if (_cmd_owner["src"] == "llm"
++            and time.monotonic() - _cmd_owner["llm_ts"] > _LLM_SILENCE_S):
++        log.warning("cmd owner: LLM silent %.1fs > %.1fs — link lost, idling",
++                    time.monotonic() - _cmd_owner["llm_ts"], _LLM_SILENCE_S)
++        _cmd_owner["src"] = None
++        return True
++    return False
+ 
+ # ---- whole-body (Pico token) release stability -----------------------------
+ # docs/experiments/wb_release_stability.md (branch `stability`, 2026-09-04).
+@@ -3108,7 +3126,15 @@ def _zmq_command_thread(
+                         _ARM_INGEST_REF[0].clear()
+                     cmd_queue.put(LocomotionCommand(
+                         intent="idle", magnitude="default"))
++                if _llm_silence_check():
++                    _PRIM_QUEUE.put(("exit",))
++                    cmd_queue.put(LocomotionCommand(
++                        intent="idle", magnitude="default", source="llm"))
+                 continue
++            if _llm_silence_check():
++                _PRIM_QUEUE.put(("exit",))
++                cmd_queue.put(LocomotionCommand(
++                    intent="idle", magnitude="default", source="llm"))
+             if len(parts) < 2:
+                 continue
+             try:
+@@ -3216,7 +3242,19 @@ def _zmq_command_thread(
+                 # planner idles; the pad re-acquires with its next message.
+                 src = str(payload.get("source", "pad"))
+                 now_own = time.monotonic()
+-                if src == "vr":
++                if src == "llm":
++                    if _cmd_owner["src"] in ("vr", "pad") and (
++                            now_own - _cmd_owner["human_ts"] < _LLM_LOCKOUT_S
++                            or _cmd_owner["src"] == "vr"):
++                        continue  # a human holds (or just held) the robot
++                    _cmd_owner["llm_ts"] = now_own
++                    if intent == "llm_keepalive":
++                        continue  # heartbeat only: never acquires / moves
++                    if _cmd_owner["src"] != "llm":
++                        log.warning("cmd owner: LLM agent acquired")
++                        _cmd_owner["src"] = "llm"
++                elif src == "vr":
++                    _cmd_owner["human_ts"] = now_own
+                     _cmd_owner["vr_ts"] = now_own
+                     if payload.get("vr_release"):
+                         # Explicit disengage from the manager: the ONLY
+@@ -3236,6 +3274,11 @@ def _zmq_command_thread(
+                             log.warning("cmd owner: VR ENGAGED — pad input ignored")
+                             _cmd_owner["src"] = "vr"
+                 else:  # pad (or untagged legacy = pad)
++                    _cmd_owner["human_ts"] = now_own
++                    if _cmd_owner["src"] == "llm":
++                        log.warning("cmd owner: PAD preempts LLM agent")
++                        _cmd_owner["src"] = "pad"
++                        _PRIM_QUEUE.put(("exit",))
+                     if _cmd_owner["src"] == "vr":
+                         if now_own - _cmd_owner["vr_ts"] > _VR_OWNER_TIMEOUT_S:
+                             log.warning(
