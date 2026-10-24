@@ -171,6 +171,8 @@ One Isaac instance at a time. They also need a GR00T-WholeBodyControl
 checkout of branch `gemma-control`, or any checkout with the two patches
 from `patches/` applied. The default is the worktree
 `~/Projects/GR00T-WBC-gemma`; set `GEMMA_WBC` to use another checkout.
+The kitchen scan and the scene props come from `~/projects/x2-kitchen-sim`,
+branch `gemma-control` (`assets/kitchen/`, `assets/props/`, via Git LFS).
 
 Interactive chat (starts a fresh kitchen rig and a new run bundle):
 
