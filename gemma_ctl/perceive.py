@@ -13,6 +13,7 @@ import argparse
 import base64
 import json
 import math
+import os
 import re
 import time
 import urllib.request
@@ -46,7 +47,8 @@ with coordinates normalized to 0-1000."""
 def gemma_boxes(img_path, model="gemma4:26b", prompt=PROMPT):
     b = base64.b64encode(Path(img_path).read_bytes()).decode()
     body = json.dumps({"model": model, "stream": False, "think": False,
-                       "options": {"temperature": 0.0, "num_ctx": 16384},
+                       "options": {"temperature": 0.0, "num_ctx": 16384,
+                                   "num_predict": 3000},
                        "messages": [{"role": "user", "content": prompt, "images": [b]}]}).encode()
     t0 = time.monotonic()
     r = json.loads(urllib.request.urlopen(urllib.request.Request(
@@ -58,6 +60,12 @@ def gemma_boxes(img_path, model="gemma4:26b", prompt=PROMPT):
         boxes = json.loads(m.group(0)) if m else []
     except ValueError:
         boxes = []
+        for obj in re.findall(r"\{[^{}]*\}", txt):
+            try:
+                boxes.append(json.loads(obj))
+            except ValueError:
+                pass
+        boxes = list({json.dumps(x, sort_keys=True): x for x in boxes}.values())
     return [b for b in boxes if isinstance(b, dict) and len(b.get("box_2d", [])) == 4], \
         time.monotonic() - t0, txt
 
@@ -231,7 +239,10 @@ def perceive(d: Path, model="gemma4:26b", log=print):
                 if o:
                     ver = verify_label(v, b["box_2d"], model)
                     lab = (ver or {}).get("label") or b["label"]
-                    objects.append({"label": lab, "first_label": b["label"], "view": k, **o,
+                    if os.environ.get("GEMMA_VERIFY_RELABEL", "1") == "0":
+                        lab = b["label"]
+                    objects.append({"label": lab, "first_label": b["label"],
+                                    "verify_label": (ver or {}).get("label"), "view": k, **o,
                                     "graspable": (ver or {}).get("graspable", True), "box_2d": b["box_2d"]})
     world = {"objects": _merge(objects, "base", 0.15), "places": _merge(places, "center", 0.35)}
     (d / "gemma_raw.json").write_text(json.dumps(raw, indent=1))
@@ -290,7 +301,9 @@ def overlay(d: Path, views, raw):
         im.save(Path(d) / f"view{raw.index(r)}_boxes.jpg", quality=85)
 
 
-def request_survey(dir_, views=ROOM_VIEWS, timeout_s=120, ex=None):
+def request_survey(dir_, views=ROOM_VIEWS, timeout_s=None, ex=None):
+    if timeout_s is None:
+        timeout_s = float(os.environ.get("GEMMA_SURVEY_TIMEOUT_S", "120"))
     from .executor_kitchen import KitchenExecutor
     if ex is None:
         if not hasattr(request_survey, "_obs"):
