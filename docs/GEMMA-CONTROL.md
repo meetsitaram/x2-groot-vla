@@ -13,10 +13,11 @@ position tightens from ±7 cm to ±1.3 cm with the head cameras, the palm is
 
 ![What the Orbbec RGB-D saw: before the pick, after the place, depth](../assets/gemma/gemma_orbbec_views.jpg)
 
-All of this lives in this repo, on branch `gemma-control`, until the stack
-is proven. The few changes the runtime repo (GR00T-WholeBodyControl) needs
-are kept here as patches in `patches/` and are not committed there; see
-[Running it](#running-it). Working notes, pitfalls and per-run numbers are in
+This lives on branch `gemma-control` in both repos until the stack is
+proven. Almost all of it is here. The runtime repo (GR00T-WholeBodyControl,
+branch `gemma-control`, commit 1351d2d) carries only the small hooks: the
+`llm` command source and the kitchen-rig hooks. The same changes are kept
+here as `patches/`. Working notes, pitfalls and per-run numbers are in
 [notes/gemma-control.md](notes/gemma-control.md).
 
 ## The idea in one paragraph
@@ -167,9 +168,9 @@ Open items before this works:
 All commands run from the repo root. They need: the `ollama` Docker
 container serving `gemma4:26b` on :11434, and conda env `env_isaaclab`.
 One Isaac instance at a time. They also need a GR00T-WholeBodyControl
-checkout with the two patches from `patches/` applied (`git apply`). The
-default is the worktree `~/Projects/GR00T-WBC-gemma`; set `GEMMA_WBC` to
-use another checkout.
+checkout of branch `gemma-control`, or any checkout with the two patches
+from `patches/` applied. The default is the worktree
+`~/Projects/GR00T-WBC-gemma`; set `GEMMA_WBC` to use another checkout.
 
 Interactive chat (starts a fresh kitchen rig and a new run bundle):
 
