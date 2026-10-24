@@ -3,7 +3,7 @@
   {
    "name": "mug",
    "desc": "big black mug",
-   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Mug023/Mug023.usd",
+   "usd": "/home/stickbot/projects/x2-kitchen-sim/assets/props/lightwheel/Mug023/Mug023.usd",
    "scale": 1.7,
    "xyz": [
     0.34,
@@ -14,7 +14,7 @@
   {
    "name": "pot",
    "desc": "cooking pot",
-   "usd": "/home/stickbot/projects/g1-kitchen-sim/assets/nvidia_kitchen/kitchen_assets_usd/pot.usd",
+   "usd": "/home/stickbot/projects/x2-kitchen-sim/assets/props/nvidia_kitchen/pot.usd",
    "xyz": [
     0.1,
     2.62,
@@ -24,7 +24,7 @@
   {
    "name": "kettle",
    "desc": "kettle",
-   "usd": "/home/stickbot/projects/g1-kitchen-sim/assets/nvidia_kitchen/kitchen_assets_usd/kettle.usd",
+   "usd": "/home/stickbot/projects/x2-kitchen-sim/assets/props/nvidia_kitchen/kettle.usd",
    "xyz": [
     2.1,
     -1.29,
@@ -34,7 +34,7 @@
   {
    "name": "pitcher",
    "desc": "pitcher",
-   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Pitcher031/Pitcher031.usd",
+   "usd": "/home/stickbot/projects/x2-kitchen-sim/assets/props/lightwheel/Pitcher031/Pitcher031.usd",
    "xyz": [
     -0.91,
     2.45,
@@ -44,7 +44,7 @@
   {
    "name": "can",
    "desc": "soda can",
-   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Beer003/Beer003.usd",
+   "usd": "/home/stickbot/projects/x2-kitchen-sim/assets/props/lightwheel/Beer003/Beer003.usd",
    "xyz": [
     0.22,
     1.61,

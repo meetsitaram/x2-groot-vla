@@ -3,7 +3,7 @@
   {
    "name": "mug",
    "desc": "white mug",
-   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Mug023/Mug023.usd",
+   "usd": "/home/stickbot/projects/x2-kitchen-sim/assets/props/lightwheel/Mug023/Mug023.usd",
    "xyz": [
     0.34,
     1.43,
@@ -14,7 +14,7 @@
   {
    "name": "can",
    "desc": "soda can",
-   "usd": "/home/stickbot/.cache/lightwheel_sdk/object/Beer003/Beer003.usd",
+   "usd": "/home/stickbot/projects/x2-kitchen-sim/assets/props/lightwheel/Beer003/Beer003.usd",
    "xyz": [
     2.1,
     -1.29,
