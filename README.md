@@ -90,6 +90,23 @@ empty-room orbit). Reproduce / tweak:
   mesh: heights, areas, placement spots with clearance radii, walkable
   standing bands (JSON + rerunnable script + debug render).
 
+## GR00T (trained on the G1) driving the X2 (2026-11)
+
+[`groot_bridge/`](groot_bridge/) runs NVIDIA's frozen `nvidia/G1-Factory-GR00T-1.7` on the X2
+through a model-agnostic embodiment adapter: X2 head camera + joints are translated into the G1's
+inputs, and the G1's action chunks (arm / hand / waist joints + base height + walk command) are
+translated back into X2 SONIC commands. Arms are retargeted in hand space (G1 FK -> X2 IK), because
+copying joint angles puts the X2's hands 0.45 m apart instead of the G1's 0.23 m. GR00T 2 drops in by
+swapping the target spec.
+
+[![X2 lifts the box: a G1 BoxLift demo executed through the G1->X2 adapter (click for the video)](assets/groot_bridge/x2_boxlift_replay.jpg)](assets/groot_bridge/x2_boxlift_replay.mp4)
+
+*BoxLift on the X2 with OmniHands in MuJoCo: a G1-Factory-Benchmark demo replayed through the
+adapter — the X2 walks to the table, squeezes the box between its palms and lifts it 11 cm, held
+3.6 s ([video](assets/groot_bridge/x2_boxlift_replay.mp4)). GR00T closed loop walks to the table
+and reaches the box zero-shot but does not commit to the lift yet; next is fine-tuning on these X2
+replays. Details, joint-order table and numbers: [docs/GROOT_X2_BRIDGE.md](docs/GROOT_X2_BRIDGE.md).*
+
 ## Status
 
 M0-kitchen smoke largely PASSED (2026-08-03): the bridge `--sonic-onnx`
